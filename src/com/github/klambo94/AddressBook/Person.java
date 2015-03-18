@@ -11,9 +11,9 @@ public class Person {
     private String city;
     private String state;
     private String email;
-    private int phoneNumber;
+    private String phoneNumber;
 
-    public Person(String firstName, String middleName, String lastName, int phoneNumber, String street, String city, String state, String email) {
+    public Person(String firstName, String middleName, String lastName, String phoneNumber, String street, String city, String state, String email) {
         this.setFirstName(firstName);
         this.setMiddleName(middleName);
         this.setLastName(lastName);
@@ -81,11 +81,11 @@ public class Person {
         this.email = email;
     }
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 }
