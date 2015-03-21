@@ -7,18 +7,23 @@ public class Person {
     private String firstName;
     private String middleName;
     private String lastName;
-    private String street;
+    private String streetNumber;
+    private String streetName;
     private String city;
     private String state;
     private String email;
     private String phoneNumber;
+    private String aptNum;
 
-    public Person(String firstName, String middleName, String lastName, String phoneNumber, String street, String city, String state, String email) {
+
+    public Person(String firstName, String middleName, String lastName, String phoneNumber, String streetNumber, String streetName, String city, String state, String email, String aptNum) {
+        this.aptNum = aptNum;
         this.setFirstName(firstName);
         this.setMiddleName(middleName);
         this.setLastName(lastName);
         this.setPhoneNumber(phoneNumber);
-        this.setStreet(street);
+        this.setStreetNumber(streetNumber);
+        this.setStreetName(streetName);
         this.setCity(city);
         this.setState(state);
         this.setEmail(email);
@@ -49,12 +54,12 @@ public class Person {
         this.lastName = lastName;
     }
 
-    public String getStreet() {
-        return street;
+    public String getStreetName() {
+        return streetName;
     }
 
-    public void setStreet(String street) {
-        this.street = street;
+    public void setStreetName(String streetName) {
+        this.streetName = streetName;
     }
 
     public String getCity() {
@@ -87,5 +92,21 @@ public class Person {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public void setStreetNumber(String streetNumber) {
+        this.streetNumber = streetNumber;
+    }
+
+    public String getStreetNumber() {
+        return streetNumber;
+    }
+
+    public String getAptNum() {
+        return aptNum;
+    }
+
+    public void setAptNum(String aptNum) {
+        this.aptNum = aptNum;
     }
 }
