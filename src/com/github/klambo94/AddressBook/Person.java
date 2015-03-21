@@ -13,9 +13,11 @@ public class Person {
     private String state;
     private String email;
     private String phoneNumber;
+    private String aptNum;
 
 
-    public Person(String firstName, String middleName, String lastName, String phoneNumber, String streetNumber, String streetName, String city, String state, String email) {
+    public Person(String firstName, String middleName, String lastName, String phoneNumber, String streetNumber, String streetName, String city, String state, String email, String aptNum) {
+        this.aptNum = aptNum;
         this.setFirstName(firstName);
         this.setMiddleName(middleName);
         this.setLastName(lastName);
@@ -98,5 +100,13 @@ public class Person {
 
     public String getStreetNumber() {
         return streetNumber;
+    }
+
+    public String getAptNum() {
+        return aptNum;
+    }
+
+    public void setAptNum(String aptNum) {
+        this.aptNum = aptNum;
     }
 }

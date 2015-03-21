@@ -1,6 +1,10 @@
 package com.github.klambo94.AddressBook;
+
+import org.apache.commons.validator.EmailValidator;
+
 import java.util.ArrayList;
 import java.util.Scanner;
+
 
 /**
  * Created by Kendra Lamb on 3/14/2015.
@@ -17,10 +21,7 @@ public class AddressBook {
     String city = null;
     String state = null;
     String phoneNumber = null;
-    String dotcom = ".com";
-    String dotgov = ".gov";
-    String dotnet = ".net";
-    String dotedu = ".edu";
+    String aptNum = null;
     boolean newPerson = true;
 
 
@@ -132,6 +133,25 @@ public class AddressBook {
                 }
             }
 
+            boolean aptNumIsBad = true;
+            while (aptNumIsBad) {
+                try {
+                    System.out.println("Please enter the apartment number, put n/a leave blank");
+                    aptNum = scanner.nextLine();
+                    if (aptNum.equalsIgnoreCase("n/a")) {
+                        break;
+                    } else if (!isNumeric(aptNum)) {
+                        System.out.println("That is not a number, please try again");
+                    } else if (aptNum.length() >= 6) {
+                        System.out.println("It seems like that is a little too long for an apartment number. Why don't you try again.");
+                    } else {
+                        aptNumIsBad = false;
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("error?");
+                }
+
+            }
 
             boolean cityIsBad = true;
             while (cityIsBad) {
@@ -169,21 +189,19 @@ public class AddressBook {
             }
 
             boolean emailIsBad = true;
+
             while (emailIsBad) {
                 System.out.println("Please enter the email in of the person");
                 email = scanner.nextLine();
-                if (!email.contains("@")) {
-                    System.out.println("That is an invalid email address please enter: youremail@email.com");
-                } else if (!email.contains(dotcom)) {
-                    System.out.println("That is an invalid email address please enter '.com' '.net' '.edu' or '.gov'");
-                } else if (!email.contains(dotedu)) {
-                    System.out.println("That is an invalid email address please enter .com .net .edu or .gov");
+                if (!EmailValidator.getInstance().isValid(email)) {
+                    System.out.println("I'm sorry, that is an invalid email address. Please enter a valid one:");
+                    System.out.println("ex: youremail@domain.com");
                 } else {
                     emailIsBad = false;
                 }
             }
 
-            people.add(new Person(firstName, middleName, lastName, phoneNumber, streetNumber, streetName, city, state, email));
+            people.add(new Person(firstName, middleName, lastName, phoneNumber, streetNumber, streetName, city, state, email, aptNum));
             System.out.println("Is there a new person to add? (y/n)");
             newPerson = scanner.nextLine().equalsIgnoreCase("y");
         }
@@ -202,12 +220,14 @@ public class AddressBook {
         return true;
     }
 
+
     public String toString() {
         String str = "";
         for (int i = 0; i < people.size(); i++) {
             Person person = people.get(i);
             str = str + person.getFirstName() + " " + person.getMiddleName() + " " + person.getLastName() + " " + person.getPhoneNumber()
-                    + " " + person.getEmail() + " " + person.getStreetNumber() + " " + person.getStreetName() + " " + person.getCity() + " " + person.getState() + "\n";
+                    + " " + person.getEmail() + " " + person.getStreetNumber() + " " + person.getStreetName() + " apt: " + person.getAptNum()
+                    + " " + person.getCity() + " " + person.getState() + "\n";
         }
         return str;
     }
