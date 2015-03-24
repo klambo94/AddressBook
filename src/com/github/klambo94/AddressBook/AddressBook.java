@@ -3,7 +3,6 @@ package com.github.klambo94.AddressBook;
 import org.apache.commons.validator.EmailValidator;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Scanner;
 
 
@@ -23,12 +22,15 @@ public class AddressBook {
     String state = null;
     String phoneNumber = null;
     String aptNum = null;
-    String removeFirstName = null;
-    String removeMiddleName = null;
-    String removeLastName = null;
-    String removePhoneNumber = null;
     boolean newPerson = true;
 
+
+    public AddressBook() {
+        Person person1 = new Person("Kendra", "Marie", "Lamb", "7202318807", "18104", "E Loyola Pl", "Aurora", "Co", "klambo94@gmail.com", "n/a");
+        Person person2 = new Person("Adam", "Douglas", "Smith", "2029473613", "8060", "E Girard Ave", "Denver", "Co", "asmith0935@gmail.com", "701");
+        people.add(person1);
+        people.add(person2);
+    }
 
     public void addPerson() {
 
@@ -205,110 +207,51 @@ public class AddressBook {
                     emailIsBad = false;
                 }
             }
-
             people.add(new Person(firstName, middleName, lastName, phoneNumber, streetNumber, streetName, city, state, email, aptNum));
             System.out.println("Is there a new person to add? (y/n)");
             newPerson = scanner.nextLine().equalsIgnoreCase("y");
-        }
 
-        //when print method is set up call it here
-        people.toString();
+        }
+        System.out.println(toString());
     }
 
 
     public static boolean isNumeric(String str) {
         try {
-            double numeric = Double.parseDouble(str);
+            Double.parseDouble(str);
         } catch (NumberFormatException e) {
             return false;
         }
         return true;
     }
 
-
     public String toString() {
         String str = "";
         for (int i = 0; i < people.size(); i++) {
             Person person = people.get(i);
-            str = str + person.getFirstName() + " " + person.getMiddleName() + " " + person.getLastName() + " " + person.getPhoneNumber()
-                    + " " + person.getEmail() + " " + person.getStreetNumber() + " " + person.getStreetName() + " apt: " + person.getAptNum()
-                    + " " + person.getCity() + " " + person.getState() + "\n";
+            str = str + i + ": " + person.getFirstName() + " " + person.getMiddleName() + " " + person.getLastName() + " "
+                    + person.getPhoneNumber() + " " + person.getEmail() + " " + person.getStreetNumber() + " " + person.getStreetName()
+                    + " apt: " + person.getAptNum() + " " + person.getCity() + " " + person.getState() + "\n";
         }
         return str;
     }
 
     public void removePerson() {
-        boolean removeFirstNameIsBad = true;
-        boolean removeMiddleNameIsBad = true;
-        boolean removeLastNameIsBad = true;
-        boolean removePhoneNumberIsBad = true;
-        while (removeFirstNameIsBad) {
-            System.out.println("Please enter the first name of the person you want to remove.");
-            removeFirstName = scanner.nextLine();
-            if (removeFirstName == null) {
-                System.out.println("You have not entered a person. Please try again.");
-            } else if (removeFirstName.length() <= 2) {
-                System.out.println("You must enter a valid name, more than 2 letters. Please try again. ");
-            } else if (isNumeric(removeFirstName)) { // checking to see if the name is numbers
-                System.out.println("Numbers are not names, please enter a name.");
-            } else if (!Character.isUpperCase(removeFirstName.charAt(0))) {
-                System.out.println("I'm sorry, the first letter need to be Uppercase. Please try again.");
-            } else {
-                removeFirstNameIsBad = false;
+        boolean removeMore = true;
+        try {
+            while (removeMore) {
+                System.out.println("Who do you want to remove from the address book?");
+                System.out.println("Please enter the index number:");
+                int personToRemove = Integer.parseInt(scanner.nextLine());
+                people.remove(personToRemove);
+                System.out.println(toString());
+                System.out.println("Do you wish to remove another? (y/n)");
+                removeMore = scanner.nextLine().equalsIgnoreCase("y");
             }
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("There is not a person in that number you have specified please try again.");
         }
-        while (removeMiddleNameIsBad) {
-            System.out.println("Please enter the middle Name of the person");
-            removeMiddleName = scanner.nextLine();
-            if (removeMiddleName == null) {
-                System.out.println("You have not entered a person. Please try again.");
-            } else if (removeMiddleName.length() <= 2) {
-                System.out.println("You must enter a valid name, more than 2 letters. Please try again. ");
-            } else if (isNumeric(removeMiddleName)) { // checking to see if the name is numbers
-                System.out.println("Numbers are not names, please enter a name.");
-            } else if (!Character.isUpperCase(removeMiddleName.charAt(0))) {
-                System.out.println("I'm sorry, the first letter need to be Uppercase. Please try again.");
-            } else {
-                removeMiddleNameIsBad = false;
-            }
-        }
-        while (removeLastNameIsBad) {
-            System.out.println("Please enter the last name of the person");
-            removeLastName = scanner.nextLine();
-            if (removeLastName == null) {
-                System.out.println("You have not entered a person. Please try again.");
-            } else if (removeLastName.length() <= 2) {
-                System.out.println("You must enter a valid name, more than 2 letters. Please try again. ");
-            } else if (isNumeric(removeLastName)) { // checking to see if the name is numbers
-                System.out.println("Numbers are not names, please enter a name.");
-            } else if (!Character.isUpperCase(removeLastName.charAt(0))) {
-                System.out.println("I'm sorry, the first letter need to be Uppercase. Please try again.");
-            } else {
-                removeLastNameIsBad = false;
-            }
-        }
-        while (removePhoneNumberIsBad) {
-            System.out.println("Please enter phone number of the person.");
-            removePhoneNumber = scanner.nextLine();
-            if (!isNumeric(removePhoneNumber)) {
-                System.out.println("That is not a number, please enter a number");
-            } else if (removePhoneNumber.length() >= 11) {
-                System.out.println("I'm sorry that number is too large, place try again.");
-            } else if (removePhoneNumber.length() < 10) {
-                System.out.println("I'm sorry, that is too small please use 10 digits");
-            } else {
-                removePhoneNumberIsBad = false;
-            }
-        }
-        Iterator<Person> it = people.iterator();
-        while (it.hasNext()) {
-            Person person = it.next();
-            if (person.getFirstName().equals(removeFirstName) && person.getMiddleName().equals(removeMiddleName) && person.getLastName().equals(removeLastName) && person.getPhoneNumber().equals(removePhoneNumber)) {
-                people.remove(it);
-            } else {
-                System.out.println("Did not remove");
-            }
-        }
+
     }
 }
 
