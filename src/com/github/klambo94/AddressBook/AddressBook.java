@@ -238,19 +238,23 @@ public class AddressBook {
 
     public void removePerson() {
         boolean removeMore = true;
-        try {
+
             while (removeMore) {
-                System.out.println("Who do you want to remove from the address book?");
-                System.out.println("Please enter the index number:");
-                int personToRemove = Integer.parseInt(scanner.nextLine());
-                people.remove(personToRemove);
-                System.out.println(toString());
-                System.out.println("Do you wish to remove another? (y/n)");
-                removeMore = scanner.nextLine().equalsIgnoreCase("y");
+                try {
+                    System.out.println("Who do you want to remove from the address book?");
+                    System.out.println("Please enter the index number:");
+                    int personToRemove = Integer.parseInt(scanner.nextLine());
+                    people.remove(personToRemove);
+                    System.out.println(toString());
+                    System.out.println("Do you wish to remove another? (y/n)");
+                    removeMore = scanner.nextLine().equalsIgnoreCase("y");
+
+                } catch (IndexOutOfBoundsException e) {
+                    System.out.println("There is not a person in that number you have specified please try again.");
+                } catch (NumberFormatException e) {
+                    System.out.println("You have entered in a letter instead of a number, please try again.");
+                }
             }
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println("There is not a person in that number you have specified please try again.");
-        }
 
     }
 }
