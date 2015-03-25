@@ -32,6 +32,7 @@ public class AddressBook {
         people.add(person2);
     }
 
+
     public void addPerson() {
 
         while (newPerson) {
@@ -40,52 +41,24 @@ public class AddressBook {
             boolean firstIsBad = true;
             while (firstIsBad) {
                 System.out.println("What is the first name of the person?");
-                firstName = scanner.nextLine();
-                if (firstName == null || firstName == "") {
-                    System.out.println("You seem to have not entered a value, please enter a name.");
-                } else if (firstName.length() <= 2) {
-                    System.out.println("You must enter a valid name, more than 2 letters. Please try again. ");
-                } else if (isNumeric(firstName)) { // checking to see if the name is numbers
-                    System.out.println("Numbers are not names, please enter a name.");
-                } else if (!Character.isUpperCase(firstName.charAt(0))) {
-                    System.out.println("I'm sorry, the first letter need to be Uppercase. Please try again.");
-                } else {
-                    firstIsBad = false;
-                }
+                firstName = isGoodInput(firstName);
+                firstIsBad = false;
+
             }
 
             boolean middleIsBad = true;
             while (middleIsBad) {
                 System.out.println("What is the middle name of the person?");
-                middleName = scanner.nextLine();
-                if (middleName == null || middleName == "") {
-                    System.out.println("You seem to have not entered a value, please enter a name.");
-                } else if (isNumeric(middleName)) { // checking to see if the name is numbers
-                    System.out.println("Numbers are not names, please enter a name.");
-                } else if (middleName.length() <= 2) {
-                    System.out.println("You must enter a valid name, more than 2 letters. Please try again. ");
-                } else if (!Character.isUpperCase(middleName.charAt(0))) {
-                    System.out.println("I'm sorry, the first letter need to be Uppercase. Please try again.");
-                } else {
-                    middleIsBad = false;
-                }
+                middleName = isGoodInput(middleName);
+                middleIsBad = false;
             }
 
             boolean lastIsBad = true;
             while (lastIsBad) {
                 System.out.println("What is the last name of the person?");
-                lastName = scanner.nextLine();
-                if (lastName == null || lastName == "") {
-                    System.out.println("You seem to have not entered a value, please enter a name.");
-                } else if (isNumeric(lastName)) {// checking to see if the name is numbers
-                    System.out.println("Numbers are not names, please enter a name.");
-                } else if (lastName.length() <= 2) {
-                    System.out.println("You must enter a valid name, more than 2 letters. Please try again. ");
-                } else if (!Character.isUpperCase(lastName.charAt(0))) {
-                    System.out.println("I'm sorry, the first letter need to be Uppercase. Please try again.");
-                } else {
-                    lastIsBad = false;
-                }
+                lastName = isGoodInput(lastName);
+                lastIsBad = false;
+
             }
 
             boolean phoneNumberIsBad = true;
@@ -126,19 +99,9 @@ public class AddressBook {
             boolean streetNameIsBad = true;
             while (streetNameIsBad) {
                 System.out.println("Please enter the street name they live on");
-                streetName = scanner.nextLine();
-                if (streetName == null || streetName == "") {
-                    System.out.println("It seems you have not entered an address. Please enter one.");
-                } else if (streetName.length() <= 1) {
-                    System.out.println("That address is not long enough, please enter in a longer address");
-                } else if (isNumeric(streetName)) {
-                    System.out.println("Please do not include the numbers, you have already saved those.");
-                    System.out.println("One more time, but just the name of the streetName.");
-                } else if (!Character.isUpperCase(streetName.charAt(0))) {
-                    System.out.println("I'm sorry, the first letter need to be Uppercase. Please try again.");
-                } else {
-                    streetNameIsBad = false;
-                }
+                streetName = isGoodInput(streetName);
+                streetNameIsBad = false;
+
             }
 
             boolean aptNumIsBad = true;
@@ -164,36 +127,16 @@ public class AddressBook {
             boolean cityIsBad = true;
             while (cityIsBad) {
                 System.out.println("Please enter the City they live in");
-                city = scanner.nextLine();
-                if (city == null || city == "") {
-                    System.out.println("It seems you have not entered in a city. Please enter one.");
-                    ;
-                } else if (city.length() <= 2) {
-                    System.out.println("I'm sorry, that seems the number of characters you've entered does not match the smallest city name length. Try again");
-                } else if (isNumeric(city)) {
-                    System.out.println("The name of a city does not have numbers in it. Please enter the name of a city.");
-                } else if (!Character.isUpperCase(city.charAt(0))) {
-                    System.out.println("I'm sorry, the first letter need to be Uppercase. Please try again.");
-                } else {
-                    cityIsBad = false;
-                }
+                city = isGoodInput(city);
+                cityIsBad = false;
+
             }
 
             boolean stateIsBad = true;
             while (stateIsBad) {
                 System.out.println("Please enter in the State they live in.");
-                state = scanner.nextLine();
-                if (state.length() <= 0) {
-                    System.out.println("It seems you have not entered a State name. Please enter one.");
-                } else if (state.length() == 1) {
-                    System.out.println("What you have entered is too small to be an abbreviation or the name of a State. Please try again.");
-                } else if (isNumeric(state)) {
-                    System.out.print("Numbers are not apart of State names. Please enter a State name");
-                } else if (!Character.isUpperCase(state.charAt(0))) {
-                    System.out.println("I'm sorry, the first letter need to be Uppercase. Please try again.");
-                } else {
-                    stateIsBad = false;
-                }
+                state = isGoodInput(state);
+                stateIsBad = false;
             }
 
             boolean emailIsBad = true;
@@ -225,6 +168,24 @@ public class AddressBook {
         return true;
     }
 
+    public String isGoodInput(String s) {
+        boolean isBadInput = true;
+        while (isBadInput) {
+            s = scanner.nextLine();
+            if (s.length() <= 3) {
+                System.out.println("You must enter a valid entry, more than 3 letters. Please try again. ");
+            } else if (isNumeric(s)) { // checking to see if the name is numbers
+                System.out.println("Numbers are not names, please enter a name.");
+            } else {
+                if (!Character.isUpperCase(s.charAt(0))) {
+                    char a = Character.toUpperCase(s.charAt(0));
+                    s = a + s.substring(1);
+                    isBadInput = false;
+                }
+            }
+        }
+        return s;
+    }
     public String toString() {
         String str = "";
         for (int i = 0; i < people.size(); i++) {
@@ -239,24 +200,26 @@ public class AddressBook {
     public void removePerson() {
         boolean removeMore = true;
 
-            while (removeMore) {
-                try {
-                    System.out.println("Who do you want to remove from the address book?");
-                    System.out.println("Please enter the index number:");
-                    int personToRemove = Integer.parseInt(scanner.nextLine());
-                    people.remove(personToRemove);
-                    System.out.println(toString());
-                    System.out.println("Do you wish to remove another? (y/n)");
-                    removeMore = scanner.nextLine().equalsIgnoreCase("y");
+        while (removeMore) {
+            try {
+                System.out.println("Who do you want to remove from the address book?");
+                System.out.println(toString());
+                System.out.println("Please enter the index number:");
+                int personToRemove = Integer.parseInt(scanner.nextLine());
+                people.remove(personToRemove);
+                System.out.println(toString());
+                System.out.println("Do you wish to remove another? (y/n)");
+                removeMore = scanner.nextLine().equalsIgnoreCase("y");
 
-                } catch (IndexOutOfBoundsException e) {
-                    System.out.println("There is not a person in that number you have specified please try again.");
-                } catch (NumberFormatException e) {
-                    System.out.println("You have entered in a letter instead of a number, please try again.");
-                }
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("There is not a person in that number you have specified please try again.");
+            } catch (NumberFormatException e) {
+                System.out.println("You have entered in a letter instead of a number, please try again.");
             }
+        }
 
     }
+
 }
 
 
