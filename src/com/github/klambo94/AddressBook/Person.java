@@ -17,7 +17,7 @@ public class Person {
 
 
     public Person(String firstName, String middleName, String lastName, String phoneNumber, String streetNumber, String streetName, String city, String state, String email, String aptNum) {
-        this.aptNum = aptNum;
+        this.setAptNum(aptNum);
         this.setFirstName(firstName);
         this.setMiddleName(middleName);
         this.setLastName(lastName);
@@ -27,6 +27,7 @@ public class Person {
         this.setCity(city);
         this.setState(state);
         this.setEmail(email);
+
     }
 
 
