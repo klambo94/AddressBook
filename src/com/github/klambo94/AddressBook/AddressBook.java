@@ -78,7 +78,6 @@ public class AddressBook {
 
             boolean streetNumberIsBad = true;
             while (streetNumberIsBad) {
-                try {
                     System.out.println("Please enter the address number of the person");
                     streetNumber = scanner.nextLine();
                     if (!isNumeric(streetNumber)) {
@@ -90,10 +89,6 @@ public class AddressBook {
                     } else {
                         streetNumberIsBad = false;
                     }
-                } catch (NumberFormatException e) {
-                    System.out.println("You either did not enter any number, or have entered the whole address. Please just use the number address.");
-                }
-
             }
 
             boolean streetNameIsBad = true;
@@ -106,7 +101,6 @@ public class AddressBook {
 
             boolean aptNumIsBad = true;
             while (aptNumIsBad) {
-                try {
                     System.out.println("Please enter the apartment number, put n/a leave blank");
                     aptNum = scanner.nextLine();
                     if (aptNum.equalsIgnoreCase("n/a")) {
@@ -118,9 +112,6 @@ public class AddressBook {
                     } else {
                         aptNumIsBad = false;
                     }
-                } catch (NumberFormatException e) {
-                    System.out.println("error?");
-                }
 
             }
 
@@ -172,8 +163,8 @@ public class AddressBook {
         boolean isBadInput = true;
         while (isBadInput) {
             s = scanner.nextLine();
-            if (s.length() <= 3) {
-                System.out.println("You must enter a valid entry, more than 3 letters. Please try again. ");
+            if (s.length() < 2) {
+                System.out.println("You must enter a valid entry, more than 21 letters. Please try again. ");
             } else if (isNumeric(s)) { // checking to see if the name is numbers
                 System.out.println("Numbers are not names, please enter a name.");
             } else {
@@ -205,6 +196,7 @@ public class AddressBook {
                 System.out.println("Who do you want to remove from the address book?");
                 System.out.println(toString());
                 System.out.println("Please enter the index number:");
+                boolean personToRemoveIsBad = true;
                 int personToRemove = Integer.parseInt(scanner.nextLine());
                 people.remove(personToRemove);
                 System.out.println(toString());
@@ -214,7 +206,7 @@ public class AddressBook {
             } catch (IndexOutOfBoundsException e) {
                 System.out.println("There is not a person in that number you have specified please try again.");
             } catch (NumberFormatException e) {
-                System.out.println("You have entered in a letter instead of a number, please try again.");
+                System.out.println("You have either entered in nothing or a letter instead of a number, please try again.");
             }
         }
 
