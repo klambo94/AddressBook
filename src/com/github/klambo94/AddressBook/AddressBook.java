@@ -258,78 +258,77 @@ public class AddressBook {
 
     public void editAPerson() {
         boolean personToEditIsGood = true;
+        boolean moreToEdit = true;
         String changeName = null;
         String changeEmail = null;
-
-        while (personToEditIsGood) {
-            try {
-                createEditOptions();
-                System.out.println("Who would like you edit? Please use the contact number. ");
-                System.out.println(toString());
-                int personToEdit = Integer.parseInt(scanner.nextLine());
-                System.out.println("What part do you want to edit?");
-                System.out.println(getEditOptions());
-                int partToEdit = Integer.parseInt(scanner.nextLine());
-                Person person = people.get(personToEdit);
-                switch (editOptions.get(partToEdit)) {
-                    case FIRSTNAME:
-                        changeName = getNewInfo(changeName);
-                        person.setFirstName(changeName);
-                        personToEditIsGood = false;
-                        break;
-                    case MIDDLENAME:
-                        changeName = getNewInfo(changeName);
-                        person.setMiddleName(changeName);
-                        personToEditIsGood = false;
-                        break;
-                    case LASTNAME:
-                        changeName = getNewInfo(changeName);
-                        person.setLastName(changeName);
-                        personToEditIsGood = false;
-                        break;
-                    case PHONENUMBER:
-                        System.out.println("What do you want to change it to?");
-                        phoneNumber = isGoodNumberInput(phoneNumber);
-                        person.setPhoneNumber(phoneNumber);
-                        personToEditIsGood = false;
-                        break;
-                    case ADDRESS:
-                        System.out.println("What do you want to change the street number to?");
-                        streetNumber = isGoodNumberInput(streetNumber);
-                        person.setStreetNumber(streetNumber);
-                        System.out.println("What do you want to change the street name to?");
-                        streetNumber = isGoodInput(streetNumber);
-                        person.setStreetName(streetName);
-                        System.out.println("What do you want to change the apartment number to?");
-                        aptNum = isGoodNumberInput(aptNum);
-                        person.setAptNum(aptNum);
-                        System.out.println("What do you want to change the city to?");
-                        city = isGoodInput(city);
-                        person.setCity(city);
-                        System.out.println("What do you want to change the state to?");
-                        state = isGoodInput(state);
-                        person.setState(state);
-                        personToEditIsGood = false;
-                        break;
-                    case EMAIL:
-                        System.out.println("What do you want to change the email to?");
-                        changeEmail = goodEmail(changeEmail);
-                        personToEditIsGood = false;
-                        break;
-                    default:
-                        System.out.println();
-
-
+        while (moreToEdit) {
+            while (personToEditIsGood) {
+                try {
+                    createEditOptions();
+                    System.out.println("Who would like you edit? Please use the contact number. ");
+                    System.out.println(toString());
+                    int personToEdit = Integer.parseInt(scanner.nextLine());
+                    System.out.println("What part do you want to edit?");
+                    System.out.println(getEditOptions());
+                    int partToEdit = Integer.parseInt(scanner.nextLine());
+                    Person person = people.get(personToEdit);
+                    switch (editOptions.get(partToEdit)) {
+                        case FIRSTNAME:
+                            changeName = getNewInfo(changeName);
+                            person.setFirstName(changeName);
+                            personToEditIsGood = false;
+                            break;
+                        case MIDDLENAME:
+                            changeName = getNewInfo(changeName);
+                            person.setMiddleName(changeName);
+                            personToEditIsGood = false;
+                            break;
+                        case LASTNAME:
+                            changeName = getNewInfo(changeName);
+                            person.setLastName(changeName);
+                            personToEditIsGood = false;
+                            break;
+                        case PHONENUMBER:
+                            System.out.println("What do you want to change it to?");
+                            phoneNumber = isGoodNumberInput(phoneNumber);
+                            person.setPhoneNumber(phoneNumber);
+                            personToEditIsGood = false;
+                            break;
+                        case ADDRESS:
+                            System.out.println("What do you want to change the street number to?");
+                            streetNumber = isGoodNumberInput(streetNumber);
+                            person.setStreetNumber(streetNumber);
+                            System.out.println("What do you want to change the street name to?");
+                            streetNumber = isGoodInput(streetNumber);
+                            person.setStreetName(streetName);
+                            System.out.println("What do you want to change the apartment number to?");
+                            aptNum = isGoodNumberInput(aptNum);
+                            person.setAptNum(aptNum);
+                            System.out.println("What do you want to change the city to?");
+                            city = isGoodInput(city);
+                            person.setCity(city);
+                            System.out.println("What do you want to change the state to?");
+                            state = isGoodInput(state);
+                            person.setState(state);
+                            personToEditIsGood = false;
+                            break;
+                        case EMAIL:
+                            System.out.println("What do you want to change the email to?");
+                            changeEmail = goodEmail(changeEmail);
+                            personToEditIsGood = false;
+                            break;
+                        default:
+                            System.out.println("You have not entered in a choice please try again.");
+                            break;
+                    }
+                } catch (IndexOutOfBoundsException e) {
+                    System.out.println("That number is not apart of the list, please try again.");
+                } catch (NumberFormatException e) {
+                    System.out.println("You have entered the person's information, or nothing. Please try the number again.");
                 }
-
-            } catch (IndexOutOfBoundsException e) {
-                System.out.println("That number is not apart of the list, please try again.");
-            } catch (NumberFormatException e) {
-                System.out.println("You have entered the person's information, or nothing. Please try the number again.");
             }
-
-
         }
+
     }
 
     public void createEditOptions() {
