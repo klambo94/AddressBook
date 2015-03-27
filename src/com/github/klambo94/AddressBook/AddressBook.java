@@ -11,6 +11,7 @@ import java.util.Scanner;
  */
 public class AddressBook {
     ArrayList<Person> people = new ArrayList();
+    ArrayList<String> editOptions = new ArrayList();
     Scanner scanner = new Scanner(System.in); //to get the user's input about a person
     String firstName = null;
     String middleName = null;
@@ -22,6 +23,14 @@ public class AddressBook {
     String state = null;
     String phoneNumber = null;
     String aptNum = null;
+    String name = null;
+    final String FIRSTNAME = "Change the first name";
+    final String MIDDLENAME = "Change the middle name";
+    final String LASTNAME = "Change the last name";
+    final String PHONENUMBER = "Change the phone number";
+    final String ADDRESS = "Change the address";
+    final String EMAIL = "Change the email";
+
     boolean newPerson = true;
 
 
@@ -64,31 +73,16 @@ public class AddressBook {
             boolean phoneNumberIsBad = true;
             while (phoneNumberIsBad) {
                 System.out.println("Please enter the phone number of the person");
-                phoneNumber = scanner.nextLine();
-                if (!isNumeric(phoneNumber)) {
-                    System.out.println("That is not a number, please enter a number");
-                } else if (phoneNumber.length() >= 11) {
-                    System.out.println("I'm sorry that number is too large, place try again.");
-                } else if (phoneNumber.length() < 10) {
-                    System.out.println("I'm sorry, that is too small please use 10 digits");
-                } else {
-                    phoneNumberIsBad = false;
-                }
+                phoneNumber = isGoodNumberInput(phoneNumber);
+                phoneNumberIsBad = false;
+
             }
 
             boolean streetNumberIsBad = true;
             while (streetNumberIsBad) {
-                    System.out.println("Please enter the address number of the person");
-                    streetNumber = scanner.nextLine();
-                    if (!isNumeric(streetNumber)) {
-                        System.out.println("That is not a number, please enter a number");
-                    } else if (phoneNumber.length() < 0) {
-                        System.out.println("It seems you have not entered an address number. Please try again .");
-                    } else if (phoneNumber.length() < 6) {
-                        System.out.println("It seems like that is a little too long for an address number. Why don't you try again.");
-                    } else {
-                        streetNumberIsBad = false;
-                    }
+                System.out.println("Please enter the address number of the person");
+                streetNumber = isGoodNumberInput(streetNumber);
+                streetNumberIsBad = false;
             }
 
             boolean streetNameIsBad = true;
@@ -101,17 +95,9 @@ public class AddressBook {
 
             boolean aptNumIsBad = true;
             while (aptNumIsBad) {
-                    System.out.println("Please enter the apartment number, put n/a leave blank");
-                    aptNum = scanner.nextLine();
-                    if (aptNum.equalsIgnoreCase("n/a")) {
-                        break;
-                    } else if (!isNumeric(aptNum)) {
-                        System.out.println("That is not a number, please try again");
-                    } else if (aptNum.length() >= 6) {
-                        System.out.println("It seems like that is a little too long for an apartment number. Why don't you try again.");
-                    } else {
-                        aptNumIsBad = false;
-                    }
+                System.out.println("Please enter the apartment number, put n/a leave blank");
+                aptNum = isGoodNumberInput(aptNum);
+                aptNumIsBad = false;
 
             }
 
@@ -133,13 +119,8 @@ public class AddressBook {
             boolean emailIsBad = true;
             while (emailIsBad) {
                 System.out.println("Please enter the email in of the person");
-                email = scanner.nextLine();
-                if (!EmailValidator.getInstance().isValid(email)) {
-                    System.out.println("I'm sorry, that is an invalid email address. Please enter a valid one:");
-                    System.out.println("ex: youremail@domain.com");
-                } else {
-                    emailIsBad = false;
-                }
+                email = goodEmail(email);
+                emailIsBad = false;
             }
             people.add(new Person(firstName, middleName, lastName, phoneNumber, streetNumber, streetName, city, state, email, aptNum));
             System.out.println("Is there a new person to add? (y/n)");
@@ -164,7 +145,7 @@ public class AddressBook {
         while (isBadInput) {
             s = scanner.nextLine();
             if (s.length() < 2) {
-                System.out.println("You must enter a valid entry, more than 21 letters. Please try again. ");
+                System.out.println("You must enter a valid entry, more than 2 letters. Please try again. ");
             } else if (isNumeric(s)) { // checking to see if the name is numbers
                 System.out.println("Numbers are not names, please enter a name.");
             } else {
@@ -172,7 +153,71 @@ public class AddressBook {
                     char a = Character.toUpperCase(s.charAt(0));
                     s = a + s.substring(1);
                     isBadInput = false;
+                } else {
+                    isBadInput = false;
                 }
+            }
+        }
+        return s;
+    }
+
+    public String isGoodNumberInput(String s) {
+        boolean isBadInput = true;
+        while (isBadInput) {
+            switch (s) {
+                case "phoneNumber":
+                    s = scanner.nextLine();
+                    if (!isNumeric(s)) {
+                        System.out.println("That is not a number, please enter a number");
+                    } else if (s.length() >= 11) {
+                        System.out.println("I'm sorry that number is too large, place try again.");
+                    } else if (s.length() < 10) {
+                        System.out.println("I'm sorry, that is too small please use 10 digits");
+                    } else {
+                        isBadInput = false;
+                    }
+                    break;
+                case "streetNumber":
+                    s = scanner.nextLine();
+                    if (!isNumeric(s)) {
+                        System.out.println("That is not a number, please enter a number");
+                    } else if (s.length() < 0) {
+                        System.out.println("It seems you have not entered an address number. Please try again .");
+                    } else if (s.length() > 10) {
+                        System.out.println("It seems like that is a little too long for an address number. Why don't you try again.");
+                    } else {
+                        isBadInput = false;
+                    }
+                    break;
+                case "aptNum":
+                    s = scanner.nextLine();
+                    if (s.equalsIgnoreCase("n/a")) {
+                        break;
+                    } else if (!isNumeric(s)) {
+                        System.out.println("That is not a number, please try again");
+                    } else if (s.length() >= 6) {
+                        System.out.println("It seems like that is a little too long for an apartment number. Why don't you try again.");
+                    } else {
+                        isBadInput = false;
+                    }
+                    break;
+                default:
+                    System.out.println("There is no option for that, please try again");
+
+            }
+        }
+        return s;
+    }
+
+    public String goodEmail(String s) {
+        boolean isBadInput = true;
+        while (isBadInput) {
+            s = scanner.nextLine();
+            if (!EmailValidator.getInstance().isValid(s)) {
+                System.out.println("I'm sorry, that is an invalid email address. Please enter a valid one:");
+                System.out.println("ex: youremail@domain.com");
+            } else {
+                isBadInput = false;
             }
         }
         return s;
@@ -193,10 +238,9 @@ public class AddressBook {
 
         while (removeMore) {
             try {
-                System.out.println("Who do you want to remove from the address book?");
+                System.out.println("Who do you want to remove from the address book? Please use the number of the contact.");
                 System.out.println(toString());
                 System.out.println("Please enter the index number:");
-                boolean personToRemoveIsBad = true;
                 int personToRemove = Integer.parseInt(scanner.nextLine());
                 people.remove(personToRemove);
                 System.out.println(toString());
@@ -212,6 +256,105 @@ public class AddressBook {
 
     }
 
+    public void editAPerson() {
+        boolean personToEditIsGood = true;
+        String changeName = null;
+        String changeEmail = null;
+
+        while (personToEditIsGood) {
+            try {
+                createEditOptions();
+                System.out.println("Who would like you edit? Please use the contact number. ");
+                System.out.println(toString());
+                int personToEdit = Integer.parseInt(scanner.nextLine());
+                System.out.println("What part do you want to edit?");
+                System.out.println(getEditOptions());
+                int partToEdit = Integer.parseInt(scanner.nextLine());
+                Person person = people.get(personToEdit);
+                switch (editOptions.get(partToEdit)) {
+                    case FIRSTNAME:
+                        changeName = getNewInfo(changeName);
+                        person.setFirstName(changeName);
+                        personToEditIsGood = false;
+                        break;
+                    case MIDDLENAME:
+                        changeName = getNewInfo(changeName);
+                        person.setMiddleName(changeName);
+                        personToEditIsGood = false;
+                        break;
+                    case LASTNAME:
+                        changeName = getNewInfo(changeName);
+                        person.setLastName(changeName);
+                        personToEditIsGood = false;
+                        break;
+                    case PHONENUMBER:
+                        System.out.println("What do you want to change it to?");
+                        phoneNumber = isGoodNumberInput(phoneNumber);
+                        person.setPhoneNumber(phoneNumber);
+                        personToEditIsGood = false;
+                        break;
+                    case ADDRESS:
+                        System.out.println("What do you want to change the street number to?");
+                        streetNumber = isGoodNumberInput(streetNumber);
+                        person.setStreetNumber(streetNumber);
+                        System.out.println("What do you want to change the street name to?");
+                        streetNumber = isGoodInput(streetNumber);
+                        person.setStreetName(streetName);
+                        System.out.println("What do you want to change the apartment number to?");
+                        aptNum = isGoodNumberInput(aptNum);
+                        person.setAptNum(aptNum);
+                        System.out.println("What do you want to change the city to?");
+                        city = isGoodInput(city);
+                        person.setCity(city);
+                        System.out.println("What do you want to change the state to?");
+                        state = isGoodInput(state);
+                        person.setState(state);
+                        personToEditIsGood = false;
+                        break;
+                    case EMAIL:
+                        System.out.println("What do you want to change the email to?");
+                        changeEmail = goodEmail(changeEmail);
+                        personToEditIsGood = false;
+                        break;
+                    default:
+                        System.out.println();
+
+
+                }
+
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("That number is not apart of the list, please try again.");
+            } catch (NumberFormatException e) {
+                System.out.println("You have entered the person's information, or nothing. Please try the number again.");
+            }
+
+
+        }
+    }
+
+    public void createEditOptions() {
+        editOptions.add(FIRSTNAME);
+        editOptions.add(MIDDLENAME);
+        editOptions.add(LASTNAME);
+        editOptions.add(PHONENUMBER);
+        editOptions.add(ADDRESS);
+        editOptions.add(EMAIL);
+
+    }
+
+    public String getEditOptions() {
+        String optionName = "";
+        for (int i = 0; i < editOptions.size(); i++) {
+            optionName = optionName + i + " - " + editOptions.get(i) + "\n";
+        }
+        return optionName;
+    }
+
+    public String getNewInfo(String s) {
+        System.out.println("What do you want to change it to?");
+        name = isGoodInput(s);
+        return name;
+    }
 }
 
 

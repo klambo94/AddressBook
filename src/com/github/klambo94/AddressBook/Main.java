@@ -10,6 +10,7 @@ public class Main {
     private static final String VIEW = "View a person";
     private static final String ADD = "Add a person";
     private static final String REMOVE = "Remove a person";
+    private static final String EDIT = "Edit a person";
 
     public static void main(String[] args) {
         AddressBook addressBook = new AddressBook();
@@ -36,6 +37,9 @@ public class Main {
                             addressBook.removePerson();
                             userChoiceIsBad = false;
                             break;
+                        case EDIT:
+                            addressBook.editAPerson();
+                            userChoiceIsBad = false;
                         default:
                             System.out.println("You have not entered a right choice. Please try again.");
                             break;
@@ -59,6 +63,7 @@ public class Main {
         options.add(VIEW);
         options.add(ADD);
         options.add(REMOVE);
+        options.add(EDIT);
     }
 
     public static String getUserOptions() {
