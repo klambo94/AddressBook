@@ -40,6 +40,7 @@ public class Main {
                         case EDIT:
                             addressBook.editAPerson();
                             userChoiceIsBad = false;
+                            break;
                         default:
                             System.out.println("You have not entered a right choice. Please try again.");
                             break;
@@ -48,6 +49,8 @@ public class Main {
                     System.out.println("I'm sorry, that is not an option. Please chose a number in front of the option.");
                 } catch (IndexOutOfBoundsException e) {
                     System.out.println("You've chosen a number that is not part of the option numbers. Try again please.");
+                } catch (NullPointerException e) {
+                    System.out.println("This is an error.");
                 }
 
             }
@@ -73,4 +76,5 @@ public class Main {
         }
         return userChoices;
     }
+
 }

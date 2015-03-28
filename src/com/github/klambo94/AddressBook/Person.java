@@ -14,9 +14,10 @@ public class Person {
     private String email;
     private String phoneNumber;
     private String aptNum;
+    private String zip;
 
 
-    public Person(String firstName, String middleName, String lastName, String phoneNumber, String streetNumber, String streetName, String city, String state, String email, String aptNum) {
+    public Person(String firstName, String middleName, String lastName, String phoneNumber, String streetNumber, String streetName, String city, String state, String email, String aptNum, String zip) {
         this.setAptNum(aptNum);
         this.setFirstName(firstName);
         this.setMiddleName(middleName);
@@ -27,6 +28,7 @@ public class Person {
         this.setCity(city);
         this.setState(state);
         this.setEmail(email);
+        this.setZip(zip);
 
     }
 
@@ -109,5 +111,13 @@ public class Person {
 
     public void setAptNum(String aptNum) {
         this.aptNum = aptNum;
+    }
+
+    public String getZip() {
+        return zip;
+    }
+
+    public void setZip(String zip) {
+        this.zip = zip;
     }
 }
