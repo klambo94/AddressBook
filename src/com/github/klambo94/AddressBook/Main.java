@@ -10,6 +10,7 @@ public class Main {
     private static final String VIEW = "View a person";
     private static final String ADD = "Add a person";
     private static final String REMOVE = "Remove a person";
+    private static final String EDIT = "Edit a person";
 
     public static void main(String[] args) {
         AddressBook addressBook = new AddressBook();
@@ -36,6 +37,10 @@ public class Main {
                             addressBook.removePerson();
                             userChoiceIsBad = false;
                             break;
+                        case EDIT:
+                            addressBook.editAPerson();
+                            userChoiceIsBad = false;
+                            break;
                         default:
                             System.out.println("You have not entered a right choice. Please try again.");
                             break;
@@ -44,6 +49,8 @@ public class Main {
                     System.out.println("I'm sorry, that is not an option. Please chose a number in front of the option.");
                 } catch (IndexOutOfBoundsException e) {
                     System.out.println("You've chosen a number that is not part of the option numbers. Try again please.");
+                } catch (NullPointerException e) {
+                    System.out.println("This is an error.");
                 }
 
             }
@@ -59,6 +66,7 @@ public class Main {
         options.add(VIEW);
         options.add(ADD);
         options.add(REMOVE);
+        options.add(EDIT);
     }
 
     public static String getUserOptions() {
@@ -68,4 +76,5 @@ public class Main {
         }
         return userChoices;
     }
+
 }
