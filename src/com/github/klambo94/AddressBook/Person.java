@@ -1,5 +1,7 @@
 package com.github.klambo94.AddressBook;
 
+import java.util.ArrayList;
+
 /**
  * Created by Kendra Lamb on 3/14/2015.
  */
@@ -17,7 +19,7 @@ public class Person {
     private String zip;
 
 
-    public Person(String firstName, String middleName, String lastName, String phoneNumber, String streetNumber, String streetName, String city, String state, String email, String aptNum, String zip) {
+    public Person(String firstName, String middleName, String lastName, String streetName, String city, String state, String email, String aptNum, String streetNumber, String phoneNumber, String zip) {
         this.setAptNum(aptNum);
         this.setFirstName(firstName);
         this.setMiddleName(middleName);
@@ -119,5 +121,12 @@ public class Person {
 
     public void setZip(String zip) {
         this.zip = zip;
+    }
+
+    public String getInsertSQL() {
+
+        return "INSERT INTO public.\"Persons\" VALUES ('" + firstName + "', '" + middleName + "', '" + lastName + "', " +
+                "'" + streetName + "', '" + city + "', '" + state + "', '" + email + "', '" + aptNum + "', " +
+                "'" + streetNumber + "', '" + phoneNumber + "', '" + zip + "')";
     }
 }

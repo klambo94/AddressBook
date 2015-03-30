@@ -2,6 +2,8 @@ package com.github.klambo94.AddressBook;
 
 import org.apache.commons.validator.routines.EmailValidator;
 
+import javax.xml.transform.Result;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -10,25 +12,39 @@ import java.util.Scanner;
  * Created by Kendra Lamb on 3/14/2015.
  */
 public class AddressBook {
-    ArrayList<Person> people = new ArrayList();
-    ArrayList<String> editOptions = new ArrayList();
-    Scanner scanner = new Scanner(System.in); //to get the user's input about a person
-    String name = null;
-    final String FIRSTNAME = "Change the first name";
-    final String MIDDLENAME = "Change the middle name";
-    final String LASTNAME = "Change the last name";
-    final String PHONENUMBER = "Change the phone number";
-    final String ADDRESS = "Change the address";
-    final String EMAIL = "Change the email";
-
-
+    private ArrayList<String> editOptions = new ArrayList();
+    private Scanner scanner = new Scanner(System.in); //to get the user's input about a person
+    private String name = null;
+    private final String FIRSTNAME = "Change the first name";
+    private final String MIDDLENAME = "Change the middle name";
+    private final String LASTNAME = "Change the last name";
+    private final String PHONENUMBER = "Change the phone number";
+    private final String ADDRESS = "Change the address";
+    private final String EMAIL = "Change the email";
+    private Connection connection = null;
+    // the postgresql url
+    private final String dbURL = "jdbc:postgresql://localhost/AddressBookDB";
+    private final String dbUser = "postgres";
+    private final String dbPW = "Recondo6450300";
 
 
     public AddressBook() {
-        Person person1 = new Person("Kendra", "Marie", "Lamb", "7202318807", "18104", "E Loyola Pl", "Aurora", "Co", "klambo94@gmail.com", "n/a", "80236");
-        Person person2 = new Person("Adam", "Douglas", "Smith", "2029473613", "8060", "E Girard Ave", "Denver", "Co", "asmith0935@gmail.com", "701", "80013");
-        people.add(person1);
-        people.add(person2);
+
+        try {
+            // the postgresql driver string
+            Class.forName("org.postgresql.Driver");
+
+            // get the postgresql database connection
+            connection = DriverManager.getConnection(dbURL, dbUser, dbPW);
+
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            System.exit(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.exit(2);
+        }
     }
 
 
@@ -129,7 +145,13 @@ public class AddressBook {
                 email = goodEmail(email);
                 emailIsBad = false;
             }
-            people.add(new Person(firstName, middleName, lastName, phoneNumber, streetNumber, streetName, city, state, email, aptNum, zip));
+            try {
+                Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                statement.execute(new Person(firstName, middleName, lastName, streetName, city, state, email, aptNum, streetNumber, phoneNumber, zip).getInsertSQL());
+                statement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             System.out.println("Is there a new person to add? (y/n)");
             newPerson = scanner.nextLine().equalsIgnoreCase("y");
 
@@ -236,11 +258,36 @@ public class AddressBook {
     }
     public String toString() {
         String str = "";
-        for (int i = 0; i < people.size(); i++) {
-            Person person = people.get(i);
-            str = str + i + ": " + person.getFirstName() + " " + person.getMiddleName() + " " + person.getLastName() + " "
-                    + person.getPhoneNumber() + " " + person.getEmail() + " " + person.getStreetNumber() + " " + person.getStreetName()
-                    + " apt: " + person.getAptNum() + " " + person.getCity() + " " + person.getState() + " " + person.getZip() + "\n";
+        try {
+            ArrayList<Person> people = new ArrayList();
+            Statement statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM public.\"Persons\"");
+            while (resultSet.next()) {
+
+                //Retrieve by column name
+                String firstName = resultSet.getString("first_name");
+                String middleName = resultSet.getString("middle_name");
+                String lastName = resultSet.getString("last_name");
+                String streetName = resultSet.getString("street_name");
+                String city = resultSet.getString("city");
+                String state = resultSet.getString("state");
+                String email = resultSet.getString("email_address");
+                String aptNum = resultSet.getString("apartment_number");
+                String streetNum = resultSet.getString("street_number");
+                String phoneNum = resultSet.getString("phone_number");
+                String zip = resultSet.getString("postal_code");
+                people.add(new Person(firstName, middleName, lastName, streetName, city, state, email, aptNum, streetNum, phoneNum, zip));
+            }
+            resultSet.close();
+            statement.close();
+            for (int i = 0; i < people.size(); i++) {
+                Person person = people.get(i);
+                str = str + i + ": " + person.getFirstName() + " " + person.getMiddleName() + " " + person.getLastName() + " "
+                        + person.getPhoneNumber() + " " + person.getEmail() + " " + person.getStreetNumber() + " " + person.getStreetName()
+                        + " apt: " + person.getAptNum() + " " + person.getCity() + " " + person.getState() + " " + person.getZip() + "\n";
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return str;
     }
@@ -254,7 +301,22 @@ public class AddressBook {
                 System.out.println(toString());
                 System.out.println("Please enter the index number:");
                 int personToRemove = Integer.parseInt(scanner.nextLine());
-                people.remove(personToRemove);
+                try {
+                    Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                    ResultSet resultSet = statement.executeQuery("SELECT * FROM public.\"Persons\"");
+                    int count = 0;
+                    while (resultSet.next()) {
+                        if (count == personToRemove) {
+                            resultSet.deleteRow();
+                            break;
+                        }
+                        count++;
+                    }
+                    resultSet.close();
+                    statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
                 System.out.println(toString());
 
                 System.out.println("Do you wish to remove another? (y/n)");
@@ -292,7 +354,38 @@ public class AddressBook {
                     System.out.println(toString());
                     System.out.println("Please enter the index number:");
                     int personToEdit = Integer.parseInt(scanner.nextLine());
-                    Person person = people.get(personToEdit);
+                    ResultSet resultSet = null;
+                    Person person = null;
+                    try {
+                        Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                        resultSet = statement.executeQuery("SELECT * FROM public.\"Persons\"");
+                        int count = 0;
+                        while (resultSet.next()) {
+                            if (count == personToEdit) {
+                                String firstName = resultSet.getString("first_name");
+                                String middleName = resultSet.getString("middle_name");
+                                String lastName = resultSet.getString("last_name");
+                                String streetName = resultSet.getString("street_name");
+                                String city = resultSet.getString("city");
+                                String state = resultSet.getString("state");
+                                String email = resultSet.getString("email_address");
+                                String aptNum = resultSet.getString("apartment_number");
+                                String streetNum = resultSet.getString("street_number");
+                                String phoneNum = resultSet.getString("phone_number");
+                                String zip = resultSet.getString("postal_code");
+                                person = new Person(firstName, middleName, lastName, streetName, city, state, email, aptNum, streetNum, phoneNum, zip);
+
+                                resultSet.deleteRow();
+                                break;
+                            }
+                            count++;
+                        }
+                        resultSet.close();
+                        statement.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+
 
                     boolean editSamePerson = true;
                     while (editSamePerson) {
@@ -357,10 +450,17 @@ public class AddressBook {
                             default:
                                 break;
                         }
-                        System.out.println(toString());
                         System.out.println("Do you want to edit more? (y/n)");
                         editSamePerson = scanner.nextLine().equalsIgnoreCase("y");
 
+                    }
+                    try {
+                        Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                        statement.execute(person.getInsertSQL());
+                        statement.close();
+                        System.out.println(toString());
+                    } catch (SQLException e) {
+                        e.printStackTrace();
                     }
 
                 } catch (IndexOutOfBoundsException e) {
