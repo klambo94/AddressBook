@@ -401,6 +401,17 @@ public class AddressBook {
         name = isGoodInput(s);
         return name;
     }
+
+    public String searchPerson() {
+        String search = null;
+        boolean moreToSearch = true;
+
+        while (moreToSearch) {
+            System.out.println("Who do you want to search for?");
+            search = scanner.nextLine().equalsIgnoreCase();
+        }
+        return //the information;
+    }
 }
 
 
