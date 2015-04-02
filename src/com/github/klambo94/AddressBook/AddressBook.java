@@ -247,26 +247,29 @@ public class AddressBook {
 
     public void removePerson() {
         boolean removeMore = true;
-
         while (removeMore) {
-            try {
-                System.out.println("Who do you want to remove from the address book? Please use the number of the contact.");
-                System.out.println(toString());
-                System.out.println("Please enter the index number:");
-                int personToRemove = Integer.parseInt(scanner.nextLine());
-                people.remove(personToRemove);
-                System.out.println(toString());
+            if (people.size() == 0) {
+                System.out.println("There is nothing in the address book");
+                break;
+            } else {
+                try {
+                    System.out.println("Who do you want to remove from the address book? Please use the number of the contact.");
+                    System.out.println(toString());
+                    System.out.println("Please enter the index number:");
+                    int personToRemove = Integer.parseInt(scanner.nextLine());
+                    people.remove(personToRemove);
+                    System.out.println(toString());
 
-                System.out.println("Do you wish to remove another? (y/n)");
-                removeMore = scanner.nextLine().equalsIgnoreCase("y");
+                    System.out.println("Do you wish to remove another? (y/n)");
+                    removeMore = scanner.nextLine().equalsIgnoreCase("y");
 
-            } catch (IndexOutOfBoundsException e) {
-                System.out.println("There is not a person in that number you have specified please try again.");
-            } catch (NumberFormatException e) {
-                System.out.println("You have either entered in nothing or a letter instead of a number, please try again.");
+                } catch (IndexOutOfBoundsException e) {
+                    System.out.println("There is not a person in that number you have specified please try again.");
+                } catch (NumberFormatException e) {
+                    System.out.println("You have either entered in nothing or a letter instead of a number, please try again.");
+                }
             }
         }
-
     }
 
     public void editAPerson() {

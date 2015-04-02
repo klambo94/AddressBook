@@ -54,8 +54,8 @@ public class Main {
                 }
 
             }
-            System.out.println("Do you have anything else to do? (y/n)");
-            moreToDo = scanner.nextLine().equalsIgnoreCase("y");
+            System.out.println("Do you wish to exit? (y/n)");
+            moreToDo = scanner.nextLine().equalsIgnoreCase("n");
         }
         System.out.println("Have a good day, hope to see you soon!");
 
