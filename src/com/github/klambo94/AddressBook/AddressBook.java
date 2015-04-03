@@ -402,15 +402,31 @@ public class AddressBook {
         return name;
     }
 
-    public String searchPerson() {
-        String search = null;
+    public void searchPerson() {
         boolean moreToSearch = true;
+        String searchForPerson = null;
 
         while (moreToSearch) {
             System.out.println("Who do you want to search for?");
-            search = scanner.nextLine().equalsIgnoreCase();
+            boolean searchIsGood = true;
+            while (searchIsGood) {
+                searchForPerson = scanner.nextLine();
+                if (searchForPerson.length() == 0) {
+                    System.out.println("You have entered nothing, please try again.");
+                } else {
+                    searchIsGood = false;
+                }
+            }
+            for (int i = 0; i < people.size(); i++) {
+
+                if (people.contains(searchForPerson)) {
+                    Person person = people.get(i);
+                } else {
+                    System.out.println("There are no contacts with that information.");
+                }
+            }
+
         }
-        return //the information;
     }
 }
 
