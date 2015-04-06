@@ -23,12 +23,13 @@ public class AddressBook {
 
 
 
-
     public AddressBook() {
         Person person1 = new Person("Kendra", "Marie", "Lamb", "7202318807", "18104", "E Loyola Pl", "Aurora", "Co", "klambo94@gmail.com", "n/a", "80236");
         Person person2 = new Person("Adam", "Douglas", "Smith", "2029473613", "8060", "E Girard Ave", "Denver", "Co", "asmith0935@gmail.com", "701", "80013");
+        Person person3 = new Person("Kendra", "Jane", "Workman", "3039473614", "4165", "S Gray St", "Wheat Ridge", "Co", "kjane2015@yahoo.com", "n/a", "80212");
         people.add(person1);
         people.add(person2);
+        people.add(person3);
     }
 
 
@@ -245,6 +246,15 @@ public class AddressBook {
         return str;
     }
 
+    public String toString(Person o) {
+        String str = "";
+        str = str + o.getFirstName() + " " + o.getMiddleName() + " " + o.getLastName() + " "
+                + o.getPhoneNumber() + " " + o.getEmail() + " " + o.getStreetNumber() + " " + o.getStreetName()
+                + " apt: " + o.getAptNum() + " " + o.getCity() + " " + o.getState() + " " + o.getZip();
+        return str;
+    }
+
+
     public void removePerson() {
         boolean removeMore = true;
         while (removeMore) {
@@ -403,9 +413,9 @@ public class AddressBook {
     }
 
     public void searchPerson() {
-        boolean moreToSearch = true;
-        String searchForPerson = null;
+        String searchForPerson;
 
+        boolean moreToSearch = true;
         while (moreToSearch) {
             System.out.println("Who do you want to search for?");
             boolean searchIsGood = true;
@@ -413,20 +423,48 @@ public class AddressBook {
                 searchForPerson = scanner.nextLine();
                 if (searchForPerson.length() == 0) {
                     System.out.println("You have entered nothing, please try again.");
+                } else if (containsPerson(searchForPerson)) {
+                    searchIsGood = false;
                 } else {
+                    boolean addContact = true;
+                    while (addContact) {
+                        System.out.println("No contacts found under: " + searchForPerson + ".  Add contact?(y/n)");
+                        addContact = scanner.nextLine().equalsIgnoreCase("y");
+                        if (addContact) {
+                            addPerson();
+                            addContact = false;
+                        } else {
+                            addContact = false;
+                        }
+                    }
                     searchIsGood = false;
                 }
             }
-            for (int i = 0; i < people.size(); i++) {
+            System.out.println("Exit search ? (y/n)");
+            moreToSearch = scanner.nextLine().equalsIgnoreCase("n");
+        }
+    }
 
-                if (people.contains(searchForPerson)) {
-                    Person person = people.get(i);
-                } else {
-                    System.out.println("There are no contacts with that information.");
+    public boolean containsPerson(String s) {
+        boolean personFound = true;
+        while (personFound) {
+            for (Person person : people) {
+                if (person.getFirstName().toLowerCase().contains(s.toLowerCase()) || person.getMiddleName().toLowerCase().contains(s.toLowerCase())
+                        || person.getLastName().toLowerCase().contains(s.toLowerCase()) || person.getStreetNumber().toLowerCase().contains(s.toLowerCase())
+                        || person.getStreetName().toLowerCase().contains(s.toLowerCase()) || person.getPhoneNumber().toLowerCase().contains(s.toLowerCase())
+                        || person.getEmail().toLowerCase().contains(s.toLowerCase()) || person.getAptNum().toLowerCase().contains(s.toLowerCase())
+                        || person.getCity().toLowerCase().contains(s.toLowerCase()) || person.getState().toLowerCase().contains(s.toLowerCase())
+                        || person.getZip().toLowerCase().contains(s.toLowerCase())) {
+
+                    System.out.println(toString(person));
+                    personFound = false;
                 }
             }
-
+            if (personFound) {
+                return false;
+            }
         }
+        return true;
     }
 }
 
