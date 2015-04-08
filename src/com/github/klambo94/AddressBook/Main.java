@@ -7,11 +7,12 @@ public class Main {
 
     private static ArrayList<String> options = new ArrayList();
     private static Scanner scanner = new Scanner(System.in);
-    private static final String VIEW = "View a person";
+    private static final String VIEW = "View the Address Book";
     private static final String ADD = "Add a person";
     private static final String REMOVE = "Remove a person";
     private static final String EDIT = "Edit a person";
-
+    private static final String SEARCH = "Search for a person";
+    private static final String EXIT = "Exit the Address Book";
     public static void main(String[] args) {
         AddressBook addressBook = new AddressBook();
         boolean moreToDo = true;
@@ -41,6 +42,13 @@ public class Main {
                             addressBook.editAPerson();
                             userChoiceIsBad = false;
                             break;
+                        case SEARCH:
+                            addressBook.searchPerson();
+                            userChoiceIsBad = false;
+                            break;
+                        case EXIT:
+                            userChoiceIsBad = false;
+                            break;
                         default:
                             System.out.println("You have not entered a right choice. Please try again.");
                             break;
@@ -54,8 +62,7 @@ public class Main {
                 }
 
             }
-            System.out.println("Do you have anything else to do? (y/n)");
-            moreToDo = scanner.nextLine().equalsIgnoreCase("y");
+            moreToDo = false;
         }
         System.out.println("Have a good day, hope to see you soon!");
 
@@ -67,6 +74,8 @@ public class Main {
         options.add(ADD);
         options.add(REMOVE);
         options.add(EDIT);
+        options.add(SEARCH);
+        options.add(EXIT);
     }
 
     public static String getUserOptions() {
