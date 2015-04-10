@@ -12,7 +12,9 @@ public class Main {
     private static final String REMOVE = "Remove a person";
     private static final String EDIT = "Edit a person";
     private static final String SEARCH = "Search for a person";
+    private static final String SORT = "Sort through the Address Book";
     private static final String EXIT = "Exit the Address Book";
+
     public static void main(String[] args) {
         AddressBook addressBook = new AddressBook();
         boolean moreToDo = true;
@@ -46,6 +48,10 @@ public class Main {
                             addressBook.searchPerson();
                             userChoiceIsBad = false;
                             break;
+                        case SORT:
+                            addressBook.printSorted();
+                            userChoiceIsBad = false;
+                            break;
                         case EXIT:
                             userChoiceIsBad = false;
                             break;
@@ -75,6 +81,7 @@ public class Main {
         options.add(REMOVE);
         options.add(EDIT);
         options.add(SEARCH);
+        options.add(SORT);
         options.add(EXIT);
     }
 
