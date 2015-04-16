@@ -625,12 +625,13 @@ public class AddressBook {
                 }
                 return -1;
             }
+
         });
         return "String";
     }
 
     public void printSorted() {
-        int howToSort = -1;
+        String howToSort;
         String sortBy = null;
 
         createSortOptions();
@@ -639,10 +640,11 @@ public class AddressBook {
         try {
             boolean sortIsGood = true;
             while (sortIsGood) {
-                howToSort = Integer.parseInt(scanner.nextLine());
-                sortBy = sortOptions.get(howToSort);
-                System.out.println(sortBy);
-                System.out.println(sortAddressBook(sortBy));
+                howToSort = scanner.nextLine();
+                //use string tokenizer and if/else statement to compare what the string name is against the index number to throw into switch statement.
+                howToSort = sortOptions.get(Integer.parseInt(howToSort));
+                System.out.println(howToSort);
+                System.out.println(sortAddressBook(howToSort));
 
             }
         } catch (IndexOutOfBoundsException e) {
