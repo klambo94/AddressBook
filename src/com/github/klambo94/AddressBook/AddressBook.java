@@ -15,7 +15,7 @@ public class AddressBook {
     ArrayList<Person> people = new ArrayList();
     ArrayList<String> editOptions = new ArrayList();
     ArrayList<String> sortOptions = new ArrayList<>();
-    Scanner scanner = new Scanner(System.in); //to get the user's input about a person
+    Scanner scanner = new Scanner(System.in);
     String name = null;
     final String FIRSTNAME = "Change the first name";
     final String MIDDLENAME = "Change the middle name";
@@ -44,8 +44,18 @@ public class AddressBook {
         people.add(person1);
         people.add(person2);
         people.add(person3);
+
     }
 
+  /*  public void Datafactory(){
+        int count = 10;
+        for (int i = 0; i < count; i++) {
+            Person person = new Person();
+                    person.setFirstName(DataFactory.getFirstNameAnyGender());
+
+        }
+    }
+*/
 
     public void addPerson() {
 
@@ -507,146 +517,131 @@ public class AddressBook {
     }
 
 
-    public void sortAddressBook(String s) {
+    public void sortAddressBook(String s, boolean ascending) {
+
 
         Collections.sort(people, new Comparator<Person>() {
             @Override
             public int compare(Person o1, Person o2) {
-                String sortBy = null;
+                String a = "", b = "";
                 switch (s) {
                     case SORTFIRSTNAME:
-                        System.out.println("Do you want to sort ascending, or descending?");
-                        sortBy = isGoodInput(sortBy);
-                        if (sortBy.equalsIgnoreCase("ascending")) {
-                            String name1 = o1.getFirstName();
-                            String name2 = o2.getFirstName();
-                            return name1.compareToIgnoreCase(name2);
+                        if (ascending) {
+                            a = o1.getFirstName();
+                            b = o2.getFirstName();
+                            break;
                         } else {
-                            String name1 = o1.getFirstName();
-                            String name2 = o2.getFirstName();
-                            return name2.compareToIgnoreCase(name1);
+                            b = o1.getFirstName();
+                            a = o2.getFirstName();
+                            break;
                         }
+
                     case SORTMIDDLENAME:
-                        System.out.println("Do you want to sort ascending, or descending?");
-                        sortBy = isGoodInput(sortBy);
-                        if (sortBy.equalsIgnoreCase("ascending")) {
-                            String name1 = o2.getMiddleName();
-                            String name2 = o2.getMiddleName();
-                            return name1.compareToIgnoreCase(name2);
+                        if (ascending) {
+                            a = o1.getMiddleName();
+                            b = o2.getMiddleName();
+                            break;
                         } else {
-                            String name1 = o1.getMiddleName();
-                            String name2 = o2.getMiddleName();
-                            return name2.compareToIgnoreCase(name1);
+                            b = o1.getMiddleName();
+                            a = o2.getMiddleName();
+                            break;
                         }
+
                     case SORTLASTNAME:
-                        System.out.println("Do you want to sort ascending, or descending?");
-                        sortBy = isGoodInput(sortBy);
-                        if (sortBy.equalsIgnoreCase("ascending")) {
-                            String name1 = o1.getLastName();
-                            String name2 = o2.getLastName();
-                            return name1.compareToIgnoreCase(name2);
+                        if (ascending) {
+                            a = o1.getLastName();
+                            b = o2.getLastName();
+                            break;
                         } else {
-                            String name1 = o1.getLastName();
-                            String name2 = o2.getLastName();
-                            return name2.compareToIgnoreCase(name1);
+                            b = o1.getLastName();
+                            a = o2.getLastName();
+                            break;
                         }
                     case SORTEMAIL:
-                        System.out.println("Do you want to sort ascending, or descending?");
-                        if (sortBy.equalsIgnoreCase("ascending")) {
-                            String email1 = o1.getEmail();
-                            String email2 = o2.getEmail();
-                            return email1.compareToIgnoreCase(email2);
+                        if (ascending) {
+                            a = o1.getEmail();
+                            b = o2.getEmail();
+                            break;
                         } else {
-                            String email1 = o1.getEmail();
-                            String email2 = o2.getEmail();
-                            return email2.compareToIgnoreCase(email1);
+                            b = o1.getEmail();
+                            a = o2.getEmail();
+                            break;
                         }
                     case SORTPHONENUM:
-                        System.out.println("Do you want to sort ascending, or descending?");
-                        if (sortBy.equalsIgnoreCase("ascending")) {
-                            String phoneNum1 = o1.getPhoneNumber();
-                            String phoneNum2 = o2.getPhoneNumber();
-                            return phoneNum1.compareToIgnoreCase(phoneNum2);
+                        if (ascending) {
+                            a = o1.getPhoneNumber();
+                            b = o2.getPhoneNumber();
+                            break;
                         } else {
-                            String phoneNum1 = o1.getPhoneNumber();
-                            String phoneNum2 = o2.getPhoneNumber();
-                            return phoneNum2.compareToIgnoreCase(phoneNum1);
+                            b = o1.getPhoneNumber();
+                            a = o2.getPhoneNumber();
+                            break;
                         }
                     case SORTSTREETNUM:
-                        System.out.println("Do you want to sort ascending, or descending?");
-                        sortBy = isGoodInput(sortBy);
-                        if (sortBy.equalsIgnoreCase("ascending")) {
-                            String streetNum1 = o1.getStreetNumber();
-                            String streetNum2 = o2.getStreetNumber();
-                            return streetNum1.compareToIgnoreCase(streetNum2);
+                        if (ascending) {
+                            a = o1.getStreetNumber();
+                            b = o2.getStreetNumber();
+                            break;
                         } else {
-                            String streetNum1 = o1.getStreetNumber();
-                            String streetNum2 = o2.getStreetNumber();
-                            return streetNum2.compareToIgnoreCase(streetNum1);
+                            b = o1.getStreetNumber();
+                            a = o2.getStreetNumber();
+                            break;
                         }
                     case SORTSTREETNAME:
-                        System.out.println("Do you want to sort ascending, or descending?");
-                        if (sortBy.equalsIgnoreCase("ascending")) {
-                            String streetName1 = o1.getStreetName();
-                            String streetName2 = o2.getStreetName();
-                            return streetName1.compareToIgnoreCase(streetName2);
+                        if (ascending) {
+                            a = o1.getStreetName();
+                            b = o2.getStreetName();
+                            break;
                         } else {
-                            String streetName1 = o1.getStreetName();
-                            String streetName2 = o2.getStreetName();
-                            return streetName2.compareToIgnoreCase(streetName1);
+                            b = o1.getStreetName();
+                            a = o2.getStreetName();
+                            break;
                         }
                     case SORTCITYNAME:
-                        System.out.println("Do you want to sort ascending, or descending?");
-                        if (sortBy.equalsIgnoreCase("asccending")) {
-                            String cityName1 = o1.getCity();
-                            String cityName2 = o2.getCity();
-                            return cityName1.compareToIgnoreCase(cityName2);
+                        if (ascending) {
+                            a = o1.getCity();
+                            b = o2.getCity();
+                            break;
                         } else {
-                            String cityName1 = o1.getCity();
-                            String cityName2 = o2.getCity();
-                            return cityName2.compareToIgnoreCase(cityName1);
+                            b = o1.getCity();
+                            a = o2.getCity();
+                            break;
                         }
                     case SORTSTATENAME:
-                        System.out.println("Do you want to sort ascending, or descending?");
-                        sortBy = isGoodInput(sortBy);
-                        if (sortBy.equalsIgnoreCase("ascending")) {
-                            String stateName1 = o1.getState();
-                            String stateName2 = o2.getState();
-                            return stateName1.compareToIgnoreCase(stateName2);
+                        if (ascending) {
+                            a = o1.getState();
+                            b = o2.getState();
+                            break;
                         } else {
-                            String stateName1 = o1.getState();
-                            String stateName2 = o2.getState();
-                            return stateName2.compareToIgnoreCase(stateName1);
+                            b = o1.getState();
+                            a = o2.getState();
+                            break;
                         }
                     case SORTAPTNUM:
-                        System.out.println("Do you want to sort ascending, or descending?");
-                        sortBy = isGoodInput(sortBy);
-                        if (sortBy.equalsIgnoreCase("ascending")) {
-                            String aptNum1 = o1.getAptNum();
-                            String aptNum2 = o2.getAptNum();
-                            return aptNum1.compareToIgnoreCase(aptNum2);
+                        if (ascending) {
+                            a = o1.getAptNum();
+                            b = o2.getAptNum();
+                            break;
                         } else {
-                            String aptNum1 = o1.getAptNum();
-                            String aptNum2 = o2.getAptNum();
-                            return aptNum2.compareToIgnoreCase(aptNum1);
+                            b = o1.getAptNum();
+                            a = o2.getAptNum();
+                            break;
                         }
                     case SORTZIP:
-                        System.out.println("Do you want to sort ascending, or descending?");
-                        sortBy = isGoodInput(sortBy);
-                        if (sortBy.equalsIgnoreCase("ascending")) {
-                            String zip1 = o1.getZip();
-                            String zip2 = o2.getZip();
-                            return zip1.compareToIgnoreCase(zip2);
+                        if (ascending) {
+                            a = o1.getZip();
+                            b = o2.getZip();
+                            break;
                         } else {
-                            String zip1 = o1.getZip();
-                            String zip2 = o2.getZip();
-                            return zip2.compareToIgnoreCase(zip1);
+                            b = o1.getZip();
+                            a = o2.getZip();
+                            break;
                         }
                     default:
                         System.out.println("There was no match, no sorting done.");
                         break;
                 }
-                return -1;
+                return a.compareTo(b);
             }
 
         });
@@ -654,13 +649,25 @@ public class AddressBook {
 
     public void printSorted() {
         String howToSort;
+        String sortBy;
+        boolean ascending = false;
         createSortOptions();
         System.out.println("How do you want to sort the address book?");
         System.out.println(getSortOptions());
         try {
                 howToSort = scanner.nextLine();
                 howToSort = sortOptions.get(Integer.parseInt(howToSort));
-            sortAddressBook(howToSort);
+            do {
+                System.out.println("Do you want to sort");
+                System.out.print("01 : ascending \n02: descending\n");
+                sortBy = scanner.nextLine();
+            } while (!isNumeric(sortBy));
+
+            if (sortBy.startsWith("as")) {
+                ascending = true;
+            }
+
+            sortAddressBook(howToSort, ascending);
             System.out.println(this.toString());
 
         } catch (IndexOutOfBoundsException e) {

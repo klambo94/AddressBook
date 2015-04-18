@@ -32,6 +32,10 @@ public class Person {
 
     }
 
+    public Person() {
+
+    }
+
 
     public String getFirstName() {
         return firstName;
