@@ -34,8 +34,8 @@ public class AddressBook {
     final String SORTCITYNAME = "Sort by city name.";
     final String SORTSTATENAME = "Sort by State name.";
     final String SORTZIP = "Sort by Zip code.";
-    final String EDIT = null;
-    final String SORT = null;
+    final String EDITOPTION = "";
+    final String SORTOPTION = "";
 
     public AddressBook() {
         Person person1 = new Person("Kendra", "Marie", "Lamb", "7202318807", "18104", "E Loyola Pl", "Aurora", "Co", "klambo94@gmail.com", "n/a", "80236");
@@ -61,17 +61,17 @@ public class AddressBook {
 
         boolean newPerson = true;
         while (newPerson) {
-            String firstName = null;
-            String middleName = null;
-            String lastName = null;
-            String email = null;
-            String streetNumber = null;
-            String streetName = null;
-            String city = null;
-            String state = null;
-            String phoneNumber = null;
-            String aptNum = null;
-            String zip = null;
+            String firstName = "";
+            String middleName = "";
+            String lastName = "";
+            String email = "";
+            String streetNumber = "";
+            String streetName = "";
+            String city = "";
+            String state = "";
+            String phoneNumber = "";
+            String aptNum = "";
+            String zip = "";
 
             boolean firstIsBad = true;
             while (firstIsBad) {
@@ -99,7 +99,7 @@ public class AddressBook {
             boolean phoneNumberIsBad = true;
             while (phoneNumberIsBad) {
                 System.out.println("Please enter the phone number of the person");
-                phoneNumber = isGoodNumberInput("phoneNumber", phoneNumber);
+                phoneNumber = isGoodNumberInput("phoneNumber");
                 phoneNumberIsBad = false;
 
             }
@@ -107,7 +107,7 @@ public class AddressBook {
             boolean streetNumberIsBad = true;
             while (streetNumberIsBad) {
                 System.out.println("Please enter the address number of the person");
-                streetNumber = isGoodNumberInput("streetNumber", streetNumber);
+                streetNumber = isGoodNumberInput("streetNumber");
                 streetNumberIsBad = false;
             }
 
@@ -122,7 +122,7 @@ public class AddressBook {
             boolean aptNumIsBad = true;
             while (aptNumIsBad) {
                 System.out.println("Please enter the apartment number, put n/a");
-                aptNum = isGoodNumberInput("aptNum", aptNum);
+                aptNum = isGoodNumberInput("aptNum");
                 aptNumIsBad = false;
 
             }
@@ -144,7 +144,7 @@ public class AddressBook {
             boolean zipIsBad = true;
             while (zipIsBad) {
                 System.out.println("Please enter the zip code");
-                zip = isGoodNumberInput("zip", zip);
+                zip = isGoodNumberInput("zip");
                 zipIsBad = false;
             }
 
@@ -193,49 +193,58 @@ public class AddressBook {
         return s;
     }
 
-    public String isGoodNumberInput(String s, String g) { // passing in the string "change phone" but not saving the new one.
+    public String isGoodNumberInput(String s) { // passing in the string "change phone" but not saving the new one.
         boolean isBadInput = true;
         while (isBadInput) {
-            g = scanner.nextLine();
-            if (s.equals("changePhone") || s.equals("phoneNumber")) {
-                if (!isNumeric(g)) {
+            s = scanner.nextLine();
+            if (s.toLowerCase().contains("phone")) {
+                if (!isNumeric(s)) {
                     System.out.println("That is not a number, please enter a number");
-                } else if (g.length() >= 11) {
+                } else if (s.length() >= 11) {
                     System.out.println("I'm sorry that number is too large, place try again.");
-                } else if (g.length() < 10) {
+                } else if (s.length() < 10) {
                     System.out.println("I'm sorry, that is too small please use 10 digits");
                 } else {
                     isBadInput = false;
                 }
-            } else if (s.equals("changeStreet") || s.equals("streetNumber")) {
-                if (!isNumeric(g)) {
+            } else if (s.toLowerCase().contains("street")) {
+                if (!isNumeric(s)) {
                     System.out.println("That is not a number, please enter a number");
-                } else if (g.length() < 0) {
+                } else if (s.length() < 0) {
                     System.out.println("It seems you have not entered an address number. Please try again .");
-                } else if (g.length() > 10) {
+                } else if (s.length() > 10) {
                     System.out.println("It seems like that is a little too long for an address number. Why don't you try again.");
                 } else {
                     isBadInput = false;
                 }
-            } else if (s.equals("changeAptNum") || s.equals("aptNum")) {
-                if (g.equalsIgnoreCase("n/a")) {
+            } else if (s.toLowerCase().contains("apt")) {
+                if (s.equalsIgnoreCase("n/a")) {
                     isBadInput = false;
-                } else if (!isNumeric(g)) {
+                } else if (!isNumeric(s)) {
                     System.out.println("That is not a number, please try again");
-                } else if (g.length() >= 6) {
+                } else if (s.length() >= 6) {
                     System.out.println("It seems like that is a little too long for an apartment number. Why don't you try again.");
                 } else {
                     isBadInput = false;
                 }
-            } else if (s.equals("changeZip") || s.equals("zip")) {
-                if (!isNumeric(g)) {
+            } else if (s.toLowerCase().contains("zip")) {
+                if (!isNumeric(s)) {
                     System.out.println("That is not a number, please enter a number.");
-                } else if (g.length() < 0) {
+                } else if (s.length() < 0) {
                     System.out.println("You have not entered a zip code, please try again.");
-                } else if (g.length() > 6) {
+                } else if (s.length() > 6) {
                     System.out.println("That is too long for a zip code, please try again.");
                 } else {
                     isBadInput = false;
+                }
+
+            } else if (s.toLowerCase().contains("sort")) {
+                if (!isNumeric(s)) {
+                    System.out.println("You've entered the option name, please enter the option number.");
+                } else if (s.equalsIgnoreCase("1") || s.equalsIgnoreCase("2")) {
+                    isBadInput = false;
+                } else {
+                    System.out.println("You must choose one of the numbers 1 or 2.");
                 }
 
             } else {
@@ -243,7 +252,7 @@ public class AddressBook {
             }
             }
 
-        return g;
+        return s;
     }
 
     public String goodEmail(String s) {
@@ -313,10 +322,10 @@ public class AddressBook {
         String changeEmail = null;
         String changePhone = null;
         String changeStreetNum = null;
-        String changeStreetName;
+        String changeStreetName = null;
         String changeAptNum = null;
-        String changeCity;
-        String changeState;
+        String changeCity = null;
+        String changeState = null;
         String changeZip = null;
 
 
@@ -334,7 +343,7 @@ public class AddressBook {
                     boolean editSamePerson = true;
                     while (editSamePerson) {
                         System.out.println("What part do you want to edit?");
-                        System.out.println(getEditOptions());
+                        System.out.println(getOptions(EDITOPTION));
                         int partToEdit = Integer.parseInt(scanner.nextLine());
                         switch (editOptions.get(partToEdit)) {
                             case FIRSTNAME:
@@ -354,33 +363,33 @@ public class AddressBook {
                                 break;
                             case PHONENUMBER:
                                 System.out.println("What do you want to change it to?");
-                                changePhone = isGoodNumberInput("phoneNumber", changePhone);
+                                changePhone = isGoodNumberInput(changePhone);
                                 person.setPhoneNumber(changePhone);
                                 personToEditIsGood = false;
                                 break;
                             case ADDRESS:
                                 System.out.println("What do you want to change the street number to?");
-                                changeStreetNum = isGoodNumberInput("changeStreet", changeStreetNum);
+                                changeStreetNum = isGoodNumberInput(changeStreetNum);
                                 person.setStreetNumber(changeStreetNum);
 
                                 System.out.println("What do you want to change the street name to?");
-                                changeStreetName = isGoodInput("changeStreet");
+                                changeStreetName = isGoodInput(changeStreetName);
                                 person.setStreetName(changeStreetName);
 
                                 System.out.println("What do you want to change the apartment number to?");
-                                changeAptNum = isGoodNumberInput("changeAptNum", changeAptNum);
+                                changeAptNum = isGoodNumberInput(changeAptNum);
                                 person.setAptNum(changeAptNum);
 
                                 System.out.println("What do you want to change the city to?");
-                                changeCity = isGoodInput("city");
+                                changeCity = isGoodInput(changeCity);
                                 person.setCity(changeCity);
 
                                 System.out.println("What do you want to change the state to?");
-                                changeState = isGoodInput("state");
+                                changeState = isGoodInput(changeState);
                                 person.setState(changeState);
 
                                 System.out.println("What do you want to change the zip code to?");
-                                changeZip = isGoodNumberInput("changeZip", changeZip);
+                                changeZip = isGoodNumberInput(changeZip);
                                 person.setZip(changeZip);
 
                                 personToEditIsGood = false;
@@ -436,18 +445,26 @@ public class AddressBook {
 
     }
 
-    public String getEditOptions() {
-        String optionName = "";
-        for (int i = 0; i < editOptions.size(); i++) {
-            optionName = optionName + i + " - " + editOptions.get(i) + "\n";
-        }
-        return optionName;
-    }
 
-    public String getSortOptions() {
+    public String getOptions(String s) {
         String optionName = "";
-        for (int i = 0; i < sortOptions.size(); i++) {
-            optionName = optionName + i + " - " + sortOptions.get(i) + "\n";
+        try {
+
+            if (s.equalsIgnoreCase(EDITOPTION)) {
+
+                for (int i = 0; i < editOptions.size(); i++) {
+                    optionName = optionName + i + " - " + editOptions.get(i) + "\n";
+                }
+
+            } else {
+                for (int i = 0; i < sortOptions.size(); i++) {
+                    optionName = optionName + i + " - " + sortOptions.get(i) + "\n";
+                }
+
+            }
+
+        } catch (NullPointerException e) {
+            System.out.println("This is the correct place because EDITOPTION is null");
         }
         return optionName;
     }
@@ -529,119 +546,109 @@ public class AddressBook {
                         if (ascending) {
                             a = o1.getFirstName();
                             b = o2.getFirstName();
-                            break;
                         } else {
                             b = o1.getFirstName();
                             a = o2.getFirstName();
-                            break;
                         }
-
+                        break;
                     case SORTMIDDLENAME:
                         if (ascending) {
                             a = o1.getMiddleName();
                             b = o2.getMiddleName();
-                            break;
                         } else {
                             b = o1.getMiddleName();
                             a = o2.getMiddleName();
-                            break;
                         }
+                        break;
 
                     case SORTLASTNAME:
                         if (ascending) {
                             a = o1.getLastName();
                             b = o2.getLastName();
-                            break;
                         } else {
                             b = o1.getLastName();
                             a = o2.getLastName();
-                            break;
+
                         }
+                        break;
                     case SORTEMAIL:
                         if (ascending) {
                             a = o1.getEmail();
                             b = o2.getEmail();
-                            break;
                         } else {
                             b = o1.getEmail();
                             a = o2.getEmail();
-                            break;
                         }
+                        break;
                     case SORTPHONENUM:
                         if (ascending) {
                             a = o1.getPhoneNumber();
                             b = o2.getPhoneNumber();
-                            break;
                         } else {
                             b = o1.getPhoneNumber();
                             a = o2.getPhoneNumber();
-                            break;
+
                         }
+                        break;
                     case SORTSTREETNUM:
                         if (ascending) {
                             a = o1.getStreetNumber();
                             b = o2.getStreetNumber();
-                            break;
                         } else {
                             b = o1.getStreetNumber();
                             a = o2.getStreetNumber();
-                            break;
                         }
+                        break;
                     case SORTSTREETNAME:
                         if (ascending) {
                             a = o1.getStreetName();
                             b = o2.getStreetName();
-                            break;
                         } else {
                             b = o1.getStreetName();
                             a = o2.getStreetName();
-                            break;
                         }
+                        break;
                     case SORTCITYNAME:
                         if (ascending) {
                             a = o1.getCity();
                             b = o2.getCity();
-                            break;
                         } else {
                             b = o1.getCity();
                             a = o2.getCity();
-                            break;
                         }
+                        break;
                     case SORTSTATENAME:
                         if (ascending) {
                             a = o1.getState();
                             b = o2.getState();
-                            break;
                         } else {
                             b = o1.getState();
                             a = o2.getState();
-                            break;
                         }
+                        break;
                     case SORTAPTNUM:
                         if (ascending) {
                             a = o1.getAptNum();
                             b = o2.getAptNum();
-                            break;
                         } else {
                             b = o1.getAptNum();
                             a = o2.getAptNum();
-                            break;
                         }
+                        break;
                     case SORTZIP:
                         if (ascending) {
                             a = o1.getZip();
                             b = o2.getZip();
-                            break;
                         } else {
                             b = o1.getZip();
                             a = o2.getZip();
-                            break;
                         }
+                        break;
                     default:
                         System.out.println("There was no match, no sorting done.");
                         break;
                 }
-                return a.compareTo(b);
+                return a.compareToIgnoreCase(b);
             }
 
         });
@@ -649,21 +656,18 @@ public class AddressBook {
 
     public void printSorted() {
         String howToSort;
-        String sortBy;
+        String sortBy = "";
         boolean ascending = false;
         createSortOptions();
         System.out.println("How do you want to sort the address book?");
-        System.out.println(getSortOptions());
+        System.out.println(getOptions(SORTOPTION));
         try {
                 howToSort = scanner.nextLine();
                 howToSort = sortOptions.get(Integer.parseInt(howToSort));
-            do {
-                System.out.println("Do you want to sort");
-                System.out.print("01 : ascending \n02: descending\n");
-                sortBy = scanner.nextLine();
-            } while (!isNumeric(sortBy));
-
-            if (sortBy.startsWith("as")) {
+            System.out.print("How do you want to sort? Please chose a number:\n1 - ascending \n" +
+                    "2 - descending\n");
+            sortBy = isGoodNumberInput(sortBy);
+            if (sortBy.equalsIgnoreCase("1")) {
                 ascending = true;
             }
 
